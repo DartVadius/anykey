@@ -1,0 +1,10 @@
+.art {
+    border-bottom: solid #2aabd2 1px;
+}
+.comm li {
+    list-style-type: none;
+}
+
+.dropdown:hover > .dropdown-menu { 
+    display: block; 
+} 
