@@ -7,7 +7,7 @@
  */
 class ChatModel {
 
-    public static $tableName = 'message';
+    private static $tableName = 'message';
     private $nick;
     private $text;
 
@@ -35,16 +35,14 @@ class ChatModel {
         );
         $res = MyPdo::getInstance()->getPDO()->prepare($sql);
         $res->execute($arr);
-        $msg = $res->fetchAll();
-        return $msg;
+        return $res->fetchAll();
     }
 
     public static function getLastId() {
         $sql = "SELECT id FROM " . self::$tableName . " ORDER BY id DESC LIMIT 1";
         $res = MyPdo::getInstance()->getPDO()->prepare($sql);
         $res->execute();
-        $id = $res->fetch()['id'];
-        return $id;
+        return $res->fetch()['id'];
     }
 
 }

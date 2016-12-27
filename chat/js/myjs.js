@@ -2,21 +2,13 @@
 $(document).ready(function () {
     //id последнего загруженного сообщения
     var messageId = 0;
-    //обработка нажатия enter
-    $('#text').keypress(function (e) {
-        if (e.keyCode == 13)
-            $('#sendButton').trigger("click");
-    });
+    var escape = document.createElement('textarea');
+
     //функция отправки пост-запроса, закодированного как json
     function sendData(data, callback) {
         $.post("chatController.php", JSON.stringify(data)).done(callback);
     }
-    //функция для экранирования html тегов в сообщениях пользователей
-    var escape = document.createElement('textarea');
-    function escapeHTML(html) {
-        escape.textContent = html;
-        return escape.innerHTML;
-    }
+
     /**
      * функция для получения сообщения с сервера
      * отправляем id последнего сообщения, отображающегося у клиента (хранится в messageId)
@@ -41,6 +33,7 @@ $(document).ready(function () {
             messageId = +newData.nextMessageId;
         });
     }
+
     /**
      * отправка нового сообщения на сервер
      * передаем json с ником и сообщением через функцию sendData,
@@ -48,6 +41,13 @@ $(document).ready(function () {
      * после чего вызывается функция getMessages
      *
      */
+
+    //функция для экранирования html тегов в сообщениях пользователей
+    function escapeHTML(html) {
+        escape.textContent = html;
+        return escape.innerHTML;
+    }
+
     $("#sendButton").click(function () {
         var data = {func: "addMessage",
             nick: $("#nick").val(),
@@ -56,6 +56,12 @@ $(document).ready(function () {
             getMessages();
         });
         $("#text").val("");
+    });
+
+    //обработка нажатия enter
+    $('#text').keypress(function (e) {
+        if (e.keyCode == 13)
+            $('#sendButton').trigger("click");
     });
 
     //опрос сервера на новые сообщения каждые 2 секунды
